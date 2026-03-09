@@ -1,420 +1,618 @@
-================================================================
-FNAAHS — FIVE NIGHTS AT AGOURA HIGH SCHOOL
-GAME DESIGN DOCUMENT v0.1
-================================================================
+# FNAAHS — Five Nights at Agoura High School
+### Game Design Document v0.2
 
-OVERVIEW
---------
-Genre:        Survival Horror (Comedy)
-Platform:     Web Browser (HTML/JS, image-based)
-Perspective:  Static first-person (office desk POV)
-Win Condition: Survive each night from ~10:00 PM to 8:30 AM
-               when school starts and someone finds you.
-Lose Condition: Caught by a teacher (see kill conditions)
+---
 
-PREMISE
--------
-You fell asleep in Mr. Oakman's office and got locked in the
-school overnight. Survive Monday through Friday. Each night
-gets harder. On Friday, nightmare versions of all teachers
-are active.
+## Overview
 
-================================================================
-CHARACTERS
-================================================================
+| Field | Details |
+|---|---|
+| **Genre** | Survival Horror |
+| **Platform** | Web Browser (HTML/JS, image-based) |
+| **Perspective** | Static first-person — office desk POV |
+| **Win Condition** | Survive each night from ~10:00 PM to 8:30 AM |
+| **Lose Condition** | Caught by a teacher (see Kill Conditions) |
 
---- TEACHERS (Antagonists) ---
+### Premise
+You fell asleep in Mr. Oakman's office and got locked in the school overnight. Survive Monday through Friday. Each night gets harder. On Friday, nightmare versions of all teachers are active.
 
-MRS. KILLACKY
-  Role:      The Unseen
-  Mechanic:  Never appears moving on any camera. Simply
-             materializes in Oakman's office without warning.
-             No audio cue. No approach animation. She is just
-             suddenly there.
-  Kill:      Appears in the office — instant death.
-             Screen goes dark. No jumpscare. Just gone.
-  Counter:   None. Pure paranoia. Check the office view often.
-  Unlocks:   Wednesday (Night 3)
+---
 
-OAKMASTER (Mr. Oakman)
-  Role:      The Wanderer
-  Mechanic:  Roams the school hallways. Appears on cameras
-             saying "Gentlemen." If the player watches him
-             on camera for too long, he locks eyes with the
-             camera and charges toward the office at alarming
-             speed.
-  Kill:      Reaches the office door and breaks in.
-  Counter:   Close the door before he arrives. Don't stare.
-  Audio cue: "Gentlemen." (repeated, escalating pace)
-  Unlocks:   Monday (Night 1) — he is always first.
+## Menu Screen
 
-MR. McCREAMY
-  Role:      The Blinder
-  Mechanic:  Wanders hallways and "splurges" on cameras,
-             covering the lens in white and temporarily
-             disabling them. Does NOT kill directly.
-             Forces the player blind on affected cameras.
-  Kill:      Does not kill. Enables other teachers by
-             removing the player's ability to track them.
-  Counter:   Switch to unaffected cameras. Wait for cameras
-             to clear. Use flashlight as backup.
-  Unlocks:   Tuesday (Night 2)
+### Main Menu Layout
+The main menu is displayed over a **still photograph of the school at night** — dark, empty hallways lit only by flickering fluorescent lights.
 
-MRS. ESCOBAR
-  Role:      The Quiz Master
-  Mechanic:  Spanish teacher. Extremely strict. If she
-             reaches the office, she does NOT kill immediately.
-             Instead she forces a Spanish Quiz Minigame.
-             Fail = death. Pass = she leaves... for now.
-  Kill:      Fail the quiz within the time limit.
-  Quiz Rules:
-    - All answers are English words with "-o" added to the end.
-    - Example: "What is the word for run?" → "runo"
-    - Example: "Translate: jump" → "jumpo"
-    - Questions appear fast. Time limit is tight.
-    - On nightmare mode (Friday), the time limit is shorter.
-  Counter:   Close the door before she reaches you.
-  Unlocks:   Thursday (Night 4)
+**Menu Options:**
+- `NEW GAME` — Starts from Night 1 (Monday). Prompts confirmation if a save exists.
+- `CONTINUE` — Resumes from the last completed night. Greyed out if no save exists.
+- `NIGHTS` — Night select screen. Shows completed nights with a star. Locked nights show a padlock.
+- `HOW TO PLAY` — Displays a brief tutorial screen (see below).
+- `CREDITS` — Scrolling credits screen.
 
-MR. KEYS
-  Role:      The Stalker
-  Mechanic:  If Mr. Keys sees the player on camera, he locks
-             on. From that point he CANNOT be shaken. He walks
-             slowly and steadily toward the office, repeating:
-               - "You're my favorite student."
-               - "Stay after class."
-             Closing the door does NOT stop him. He will open it.
-             He cannot be distracted by the phone decoy.
-  Kill:      Reaches the player. Whispers "Stay after class"
-             up close. Screen fades. GAME OVER.
-  Counter:   JEFF (one-time use only, see below).
-  Unlocks:   Wednesday (Night 3)
+**Atmosphere:**
+- Faint `night_ambience.mp3` plays on loop in the background.
+- Occasionally, a distant `gentlemen.mp3` plays softly — just barely audible.
+- No characters are visible on the menu screen. Presence is implied, not shown.
+- Title text: large, bold, slightly distressed font. Subtitle beneath: *"Don't fall asleep in detention."*
 
---- STAFF (Neutral / Protagonist) ---
+### Night Select Screen
+Displays five doors labeled **MON / TUE / WED / THU / FRI**.
+- Completed nights show a faint light under the door.
+- Current night pulses slightly.
+- Locked nights are dark with a padlock icon.
+- Clicking a completed night shows a brief summary of who was active and your best survive time.
 
-LEPESTO
-  Role:      The Alerter
-  Mechanic:  Wanders the school as a staff member. Generally
-             harmless. However, if the player lingers on his
-             camera and he makes direct eye contact with the
-             camera lens, he becomes suspicious and alerts all
-             currently active teachers, causing them to speed
-             up temporarily.
-  Kill:      Does not kill directly. Triggers teacher surge.
-  Counter:   Look away from his camera before eye contact.
-  Unlocks:   Tuesday (Night 2)
+### How To Play Screen
+Displayed as a **sticky note on a desk**, handwritten-style font. Two pages, swipe or click to advance.
 
-JEFF (Golf Cart Jeff)
-  Role:      The Hero
-  Mechanic:  Jeff patrols the school grounds on his golf cart.
-             One-time use emergency escape. When activated,
-             Jeff arrives, the player hops in the golf cart,
-             and is relocated to a DIFFERENT ROOM (classroom).
-  Effect:    Cancels Mr. Keys' lock-on permanently for that
-             night. The ONLY counter to Mr. Keys.
-  Trade-off: The new room has the SAME cameras but TWO doors
-             instead of one, meaning double the power drain
-             to keep both doors closed.
-  Use:       Single use per night. Choose wisely.
-  Unlocks:   Available every night as a passive option.
+**Page 1 — The Basics:**
+> You're stuck in Oakman's office until 8:30 AM.
+> Watch the cameras. Manage your power.
+> Close the door if someone gets close.
+> The flashlight helps you check the room.
+> If Mr. Keys locks on — call Jeff. Immediately.
 
-================================================================
-PLAYER TOOLS
-================================================================
+**Page 2 — The Rules:**
+> Don't stare at Oakmaster too long.
+> Don't let Lepesto see you watching him.
+> If Escobar gets in, answer her quiz. The Spanish is fake. Add O to everything.
+> Killacky doesn't show up on cameras. She's just there. Or she isn't.
+> Jeff saves you once. Once.
 
-SECURITY CAMERAS
-  - Monitor teacher locations across the school.
-  - Cycling through cameras costs no power.
-  - Watching Oakmaster too long triggers his charge.
-  - Watching Lepesto too long triggers his alert.
-  - McCreamy can white out individual cameras.
-  - Killacky never appears on cameras (she teleports).
+### Game Over Screen
+- Background goes dark or white depending on who killed you (see character kill screens).
+- Text: **GAME OVER** in large plain font.
+- Subtext varies by killer (see character entries).
+- Two buttons: `TRY AGAIN` and `MAIN MENU`.
 
-DOOR
-  Starting room (Oakman's office): 1 door.
-  After Jeff relocates you:        2 doors.
-  - Each door costs power to hold closed.
-  - Doors stop most teachers from entering.
-  - Does NOT stop Mr. Keys.
-  - Power drains faster each night.
+### Win Screen (Per Night)
+- School bell audio plays.
+- Screen shows an empty hallway slowly brightening as morning light comes through windows.
+- Text: **"The bell rings. You survived."**
+- Night 5 (Friday) only: additional text — *"You made it through the week."*
+- Button: `CONTINUE` (advances to next night or returns to menu on Friday).
 
-FLASHLIGHT
-  - Used to check the office/room for Killacky.
-  - Reveals if a teacher is RIGHT outside the door.
-  - Battery is limited. Use sparingly.
+---
 
-PHONE (Decoy)
-  - Place the phone somewhere in the hallway via camera view.
-  - When a teacher passes near it, they are drawn toward it.
-  - Buys time to manage doors or check cameras.
-  - Does NOT work on Mr. Keys.
-  - Recharge time between uses.
+## Characters
 
-JEFF BUTTON
-  - One-time use per night.
-  - Calls Jeff's golf cart for emergency extraction.
-  - Removes Mr. Keys' lock-on.
-  - Moves player to classroom with 2 doors.
+### Teachers (Antagonists)
 
-================================================================
-NIGHT PROGRESSION (Monday – Friday)
-================================================================
+---
 
-NIGHT 1 — MONDAY
-  Active: Oakmaster
-  Power drain: Slow
-  Notes: Tutorial night effectively. Learn camera management
-         and door timing. Oakmaster patrols slowly.
+#### Mrs. Killacky — *The Unseen*
 
-NIGHT 2 — TUESDAY
-  Active: Oakmaster, McCreamy, Lepesto
-  Power drain: Moderate
-  Notes: McCreamy begins blinding cameras. Lepesto introduced.
-         Player must manage camera attention carefully.
+**Mechanic:** Never appears moving on any camera. Simply materializes in Oakman's office without warning. No approach animation. She is just suddenly there.
 
-NIGHT 3 — WEDNESDAY
-  Active: Oakmaster, McCreamy, Lepesto, Killacky, Mr. Keys
-  Power drain: Moderate-High
-  Notes: First night where surprise death (Killacky) and
-         inescapable death (Keys) are both possible.
-         Jeff becomes critical resource.
+**Kill:** Appears in the office — instant death. Screen goes dark. No jumpscare. Just gone.
 
-NIGHT 4 — THURSDAY
-  Active: All of the above + Mrs. Escobar
-  Power drain: High
-  Notes: Escobar adds quiz minigame pressure. Full roster.
-         Survival requires managing 6 threats simultaneously.
+**Counter:** None. Pure paranoia. Check the office view often.
 
-NIGHT 5 — FRIDAY (NIGHTMARE)
-  Active: All teachers in NIGHTMARE MODE
-  Power drain: Very High (drains ~2x faster)
-  Changes:
-    - Oakmaster charges faster, says "GENTLEMEN" more often.
-    - McCreamy blinds cameras in rapid succession.
-    - Killacky can appear even without checking cameras.
-    - Escobar's quiz time limit is significantly shorter.
-    - Keys moves noticeably faster after lock-on.
-    - Lepesto alerts on a shorter eye contact window.
-  Notes: Survive until 8:30 AM. The school bell is salvation.
+**Unlocks:** Wednesday (Night 3)
 
-================================================================
-ROOMS & CAMERA LAYOUT
-================================================================
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `killacky_roll.mp3` | Plays softly when Killacky is "in transit" — player cannot see her but she is moving |
+| `killacky_voiceline1.mp3` | Plays when player has been looking at cameras too long without checking the office |
+| `killacky_voiceline2.mp3` | Plays when Killacky was in the office but player was NOT looking — near miss |
+| `killacky_voiceline3.mp3` | Plays randomly during her active window as ambient dread |
+| `killacky_eat.mp3` | Game over sound — plays when Killacky kills the player |
 
-STARTING ROOM: OAKMAN'S OFFICE
-  Doors: 1 (north hallway)
-  Cameras visible from here: All school cameras
-  Desk: Player POV. Flashlight on desk. Phone on desk.
+*Suggested voice line content: unsettling ambient sounds, faint humming, or a single quiet word. No loud jumpscares — her horror is silence.*
 
-FALLBACK ROOM: CLASSROOM (via Jeff)
-  Doors: 2 (front door + back door)
-  Cameras: Same camera access as office.
-  Risk: Double door power drain. Choose when Keys locks on.
+**Game Over Screen — Killacky:**
+- Screen cuts to black instantly. No image. No flash.
+- Text: **GAME OVER**
+- Subtext: *"You should have checked the room."*
 
-CAMERA LOCATIONS (suggested):
-  CAM 1 — Main hallway (north, outside office door)
-  CAM 2 — Main hallway (south)
-  CAM 3 — East corridor
-  CAM 4 — West corridor
-  CAM 5 — Cafeteria
-  CAM 6 — Stairwell
-  CAM 7 — Parking lot / exterior (Jeff's patrol zone)
-  CAM 8 — Classroom hallway (relevant after Jeff move)
+---
 
-================================================================
-GAME OVER CONDITIONS
-================================================================
+#### Oakmaster (Mr. Oakman) — *The Wanderer*
 
-  KILLACKY:   Appears in the office. Instant. No warning.
-  OAKMASTER:  Reaches the door and enters after being stared at.
-  McCREAMY:   Does not kill directly.
-  ESCOBAR:    Player fails Spanish quiz within the time limit.
-  MR. KEYS:   Reaches the player after lock-on (no Jeff used).
-  LEPESTO:    Does not kill directly (triggers teacher surge).
+**Mechanic:** Roams the school hallways. Visible on cameras. Says *"Gentlemen"* when spotted. If the player watches him on camera for too long, he locks eyes with the camera and charges toward the office at alarming speed.
 
-GAME OVER SCREEN — MR. KEYS:
-  Screen dims. Mr. Keys appears in close-up.
-  Audio: (whispered) "Stay after class..."
-  Text: GAME OVER
-  Subtext: You should have called Jeff.
+**Kill:** Reaches the office door and breaks in.
 
-================================================================
-FILE STRUCTURE (Web Game)
-================================================================
+**Counter:** Close the door before he arrives. Don't stare.
 
-If splitting into multiple files:
-  /FNAAHS/
-    index.html            ← Entry point, loads game
-    game.js               ← Core game logic
-    ui.js                 ← UI updates, camera switching
-    teachers.js           ← Teacher AI/state machines
-    audio.js              ← Sound management
-    style.css             ← Layout and overlays
+**Unlocks:** Monday (Night 1) — always first.
 
-  /FNAAHS/characters/
-    oakmaster.png         ← Oakmaster on camera (static)
-    oakmaster_charge.png  ← Oakmaster charging (close-up)
-    mccreamy.png          ← McCreamy on camera
-    mccreamy_splurge.png  ← McCreamy covering camera
-    escobar.png           ← Escobar on camera
-    escobar_quiz.png      ← Escobar quiz screen close-up
-    keys.png              ← Keys on camera
-    keys_close.png        ← Keys approaching (hallway)
-    keys_gameover.png     ← Keys game over close-up
-    lepesto.png           ← Lepesto on camera
-    jeff.png              ← Jeff on golf cart
-    jeff_save.png         ← Jeff save sequence
-    killacky_gameover.png ← Killacky appears (office view only)
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `gentlemen.mp3` | Plays each time Oakmaster appears on a camera |
+| `oakmaster_charge1.mp3` | Plays when he begins charging toward the office |
+| `oakmaster_charge2.mp3` | Alternate charge line — plays if charge line already used recently |
+| `oakmaster_door.mp3` | Plays when he reaches the office door |
+| `oakmaster_gameover.mp3` | Game over sting when he kills the player |
 
-  /FNAAHS/backgrounds/
-    office.png            ← Player's default room (Oakman's)
-    classroom.png         ← Fallback room after Jeff move
-    cam1_hallway_n.png    ← Camera 1 background
-    cam2_hallway_s.png
-    cam3_east.png
-    cam4_west.png
-    cam5_cafeteria.png
-    cam6_stairwell.png
-    cam7_parking.png
-    cam8_classroom_hall.png
+*Suggested voice line content: "Gentlemen." delivered with increasing urgency each time. Charge line could be a loud echoing "GENTLEMEN!" down the hallway.*
 
-  /FNAAHS/ui/
-    camera_panel.png      ← Camera switcher overlay
-    door_button.png       ← Door close button
-    phone_button.png      ← Phone decoy button
-    jeff_button.png       ← Jeff call button
-    power_bar.png         ← Power indicator
-    flashlight_overlay.png← Flashlight circle effect
+**Game Over Screen — Oakmaster:**
+- Flash of his close-up image, then black.
+- Text: **GAME OVER**
+- Subtext: *"You stared too long."*
 
-  /FNAAHS/audio/
-    gentlemen.mp3         ← Oakmaster line
-    youre_my_favorite.mp3 ← Keys line
-    stay_after_class.mp3  ← Keys line / game over whisper
-    quiz_start.mp3        ← Escobar quiz sting
-    jeff_cart.mp3         ← Golf cart sound
-    school_bell.mp3       ← 8:30 AM win condition
-    static.mp3            ← Camera static (McCreamy)
-    night_ambience.mp3    ← Background loop
+---
 
-================================================================
-CODING OVERVIEW (HTML/JS Web Game)
-================================================================
+#### Mr. McCreamy — *The Blinder*
 
-CORE LOOP
-  - Game runs on a setInterval tick (e.g. every 500ms).
-  - Each tick: move teachers, check proximity, check player
-    actions, update power, update camera views.
-  - Time runs from 10:00 PM to 8:30 AM (compressed real-time).
-    Suggested: 1 in-game hour = ~45 real seconds on Night 1,
-    scaling down to ~30s by Night 5.
+**Mechanic:** Wanders hallways and "splurges" on cameras, covering the lens and temporarily disabling them. Does NOT kill directly. Forces the player blind on affected cameras, enabling other teachers to move untracked.
 
-TEACHER STATE MACHINE (per teacher)
-  States: IDLE → MOVING → PROXIMATE → ATTACKING
-  - Each teacher has a position (camera node) and a target.
-  - Movement speed increases each night.
-  - Special states: KEYS has LOCKED_ON state (ignores phone).
+**Kill:** Does not kill. Enables other teachers by removing visibility.
 
-CAMERA SYSTEM
-  - currentCamera variable tracks which cam is displayed.
-  - Each camera background image swaps on selection.
-  - Teacher images composite on top of background if teacher
-    is at that camera node.
-  - McCreamy: on splurge, overlay white PNG on that camera.
-  - Killacky: never placed on camera nodes. Checked separately
-    via random interval tick against office view.
+**Counter:** Switch to unaffected cameras. Wait for cameras to clear.
 
-DOOR SYSTEM
-  - doorClosed = true/false (two booleans after Jeff move).
-  - While closed: drains power each tick.
-  - If teacher reaches door node AND door is open: they enter.
-  - Keys exception: he opens a closed door regardless.
+**Unlocks:** Tuesday (Night 2)
 
-POWER SYSTEM
-  - power = 100, drains to 0.
-  - Drain rate increases per night.
-  - Each closed door adds to drain rate.
-  - At power = 0: all doors open, flashlight dies.
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `cream.mp3` | Plays when McCreamy covers a camera — the sound of the camera being blocked |
+| `static.mp3` | Plays on a blinded camera while it remains covered |
+| `mccreamy_roam1.mp3` | Ambient sound when McCreamy is active and moving |
+| `mccreamy_roam2.mp3` | Alternate ambient roam sound |
+| `mccreamy_clear.mp3` | Plays when a blinded camera clears |
 
-PHONE DECOY
-  - Player selects a camera hallway to place phone.
-  - phoneLocation = camera node ID.
-  - Any teacher (except Keys) within 1 node redirects to phone.
-  - After X seconds, phone effect wears off.
+*Suggested voice line content: McCreamy does not speak. His sounds are environmental — wet, unsettling, abstract.*
 
-JEFF SAVE
-  - jeffUsed = false per night.
-  - On activation: play cart audio, swap room background,
-    set currentRoom = "classroom", enable second door,
-    cancel Keys lockOn state.
-  - jeffUsed = true. Button disabled for remainder of night.
+---
 
-ESCOBAR QUIZ MINIGAME
-  - On Escobar reaching the door (if open):
-    Overlay quiz screen.
-    Display: "Translate: [english word]"
-    Answer input field.
-    Timer bar counts down.
-    Correct answer = "[word]o"
-    Wrong answer or timeout = GAME OVER.
-    Questions are randomly selected from a word bank.
+#### Mrs. Escobar — *The Quiz Master*
 
-LEPESTO EYE CONTACT
-  - If player views Lepesto's camera, start eyeContactTimer.
-  - Timer threshold = ~3 seconds (shorter on Friday).
-  - On threshold reached: trigger teacherSurge() for 10 ticks.
+**Mechanic:** Spanish teacher. Extremely strict. If she reaches the office, she does NOT kill immediately. Instead she forces a **Spanish Quiz Minigame**. Fail = death. Pass = she leaves... for now.
 
-KILLACKY
-  - Every X seconds (random interval), roll a chance that
-    Killacky "appears" in the office.
-  - If player is currently viewing office camera or desk view:
-    Show killacky_gameover.png. GAME OVER.
-  - If player is NOT viewing office: she was there but left.
-    Show brief flicker on office cam to hint her presence.
-  - Frequency increases on Friday.
+**Kill:** Fail the quiz within the time limit.
 
-WIN CONDITION
-  - gameTime reaches 8:30 AM.
-  - Play school_bell.mp3.
-  - Show win screen: "The bell rings. You survived."
-  - Unlock next night.
+**Quiz Rules:**
+- All answers are English words with `-o` added to the end.
+- The quiz is **multiple choice** — one correct answer (`[word]o`) and one fake real Spanish word as a decoy.
+- Example: *"Translate: run"* → correct answer is `runo`, decoy might be `correr`
+- Example: *"Translate: jump"* → correct answer is `jumpo`, decoy might be `saltar`
+- Time limit is tight. On Friday (Nightmare), time limit is shorter.
+- Questions are randomly selected from a word bank.
 
-================================================================
-PHONE GUY INTRO DIALOGUE (suggestions per night)
-================================================================
+**Counter:** Close the door before she reaches you.
 
-MONDAY:
-  /phone/monday.mp3
-  Oakman
-  "Gentelmen, what are you doing in my office after hours, get out of there!"
+**Unlocks:** Thursday (Night 4)
 
-TUESDAY:
-  /phone/tuesday.mp3
-  "Gentelmen, it appears mr mccreamy isnt too happy"
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `quiz_start.mp3` | Plays when Escobar reaches the office and quiz screen appears |
+| `escobar_approach1.mp3` | Plays when Escobar is one camera node away from the office |
+| `escobar_approach2.mp3` | Alternate approach line |
+| `escobar_correct.mp3` | Short positive sting when player answers correctly |
+| `escobar_wrong.mp3` | Game over sting when player answers wrong or times out |
+| `escobar_leave.mp3` | Plays when Escobar leaves after a passed quiz |
+| `escobar_roam1.mp3` | Ambient sound while Escobar is active and patrolling |
 
-WEDNESDAY:
-  /phone/
-  "So. Um. Mrs. Killacky. Yeah. We don't really know how she
-  moves. Or if she moves. She's just... sometimes there.
-  Also Mr. Keys is active tonight. If he sees you, just...
-  call Jeff. Don't wait. Call Jeff immediately."
+*Suggested voice line content: clipped, strict teacher tone. Approach lines like "I hope you studied." Game over line: a disappointed sigh.*
 
-THURSDAY:
-  /phone/
-  "Mrs. Escobar is patrolling tonight. If she gets in,
-  she will quiz you. The Spanish is... not real Spanish.
-  You just add O to things. Run is runo. Jump is jumpo.
-  You'll figure it out. Probably. Keep the door closed."
+**Game Over Screen — Escobar:**
+- Quiz screen lingers a moment, then red X overlay.
+- Text: **GAME OVER**
+- Subtext: *"Incorrect. See me after class."*
 
-FRIDAY:
-  /phone/
-  "...I'm not going to sugarcoat it.
-  Everyone is faster tonight. Killacky is worse.
-  Keys is worse. The power drains like crazy.
-  You have Jeff. Use him smart.
-  Survive until 8:30.
-  The bell will save you.
-  Good luck."
+---
 
-================================================================
-END OF DOCUMENT — FNAAHS GDD v0.1
-================================================================
+#### Mr. Keys — *The Stalker*
+
+**Mechanic:** If Mr. Keys sees the player on camera, he **locks on permanently**. He walks slowly and steadily toward the office. Cannot be shaken. Closing the door does NOT stop him — he opens it. Cannot be distracted.
+
+He repeats:
+- *"You're my favorite student."*
+- *"Stay after class."*
+
+**Kill:** Reaches the player. Whispers *"Stay after class"* up close. Screen fades. GAME OVER.
+
+**Counter:** **Jeff** (one-time use only — see Jeff entry).
+
+**Unlocks:** Wednesday (Night 3)
+
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `youre_my_favorite.mp3` | Plays on loop while Keys is locked on and approaching |
+| `stay_after_class.mp3` | Plays when Keys is close to the office / at the door |
+| `keys_lockon.mp3` | Short sting that plays the moment Keys locks on to the player |
+| `keys_door.mp3` | Sound of Keys opening the door |
+| `keys_gameover.mp3` | Whispered game over line — *"Stay after class..."* |
+| `keys_roam1.mp3` | Ambient sound while Keys is active but not yet locked on |
+| `keys_roam2.mp3` | Alternate roam sound |
+
+*Suggested voice line content: calm, unsettlingly cheerful tone throughout. The horror is in the pleasantness.*
+
+**Game Over Screen — Mr. Keys:**
+- Screen dims slowly. Keys appears in close-up.
+- Audio: `keys_gameover.mp3` — whispered *"Stay after class..."*
+- Text: **GAME OVER**
+- Subtext: *"You should have called Jeff."*
+
+---
+
+### Staff (Protagonist)
+
+---
+
+#### Lepesto — *The Alerter*
+
+**Mechanic:** Wanders the school as a staff member. Generally harmless. However, if the player lingers on his camera and he makes **direct eye contact** with the camera lens, he alerts all currently active teachers, causing a temporary speed surge.
+
+**Kill:** Does not kill directly. Triggers teacher surge.
+
+**Counter:** Look away from his camera before he makes eye contact (~3 second threshold, shorter on Friday).
+
+**Unlocks:** Tuesday (Night 2)
+
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `lepesto_roam1.mp3` | Ambient sound as Lepesto wanders |
+| `lepesto_roam2.mp3` | Alternate ambient roam |
+| `lepesto_alert.mp3` | Plays the moment Lepesto makes eye contact and triggers the surge |
+| `lepesto_suspicious.mp3` | Plays ~1 second before eye contact threshold — brief warning |
+
+*Suggested voice line content: Lepesto doesn't know he's being watched. Alert line could be him calling out to a teacher by name down the hallway.*
+
+---
+
+#### Jeff (Golf Cart Jeff) — *The Hero*
+
+**Mechanic:** Jeff patrols the school grounds on his golf cart. **One-time use per night.** When activated, Jeff arrives, the player hops in, and is relocated to a different room (classroom).
+
+**Effect:** Permanently cancels Mr. Keys' lock-on for the rest of that night. The ONLY counter to Mr. Keys.
+
+**Trade-off:** The new room has the same cameras but **two doors** instead of one — double the power drain.
+
+**Unlocks:** Available every night from the start.
+
+**Voice Lines & Audio:**
+| File | Trigger |
+|---|---|
+| `jeff_cart.mp3` | Plays when Jeff is called and arriving |
+| `jeff_save1.mp3` | Jeff line when he picks up the player — *"Hop in, kid."* or similar |
+| `jeff_save2.mp3` | Alternate save line |
+| `jeff_patrol.mp3` | Subtle ambient sound when Jeff is visible on Cam 7 (parking lot) |
+| `jeff_used.mp3` | Short sad trombone or ambient sting when Jeff button is unavailable |
+
+*Suggested voice line content: Jeff is friendly, casual, unbothered. He's seen things. He doesn't ask questions.*
+
+**Jeff Save Sequence:**
+- Player clicks Jeff button.
+- `jeff_cart.mp3` plays — golf cart sound approaching.
+- Brief transition screen: Jeff's image with a save line.
+- Room swaps to classroom. Second door becomes active.
+- Jeff button greys out for the rest of the night.
+
+---
+
+## Player Tools
+
+### Security Cameras
+- Monitor teacher locations across the school.
+- Cycling through cameras costs no power.
+- Watching Oakmaster too long triggers his charge.
+- Watching Lepesto too long triggers his alert.
+- McCreamy can white out individual cameras temporarily.
+- Killacky **never** appears on cameras.
+
+### Door
+- Starting room (Oakman's office): **1 door**
+- After Jeff relocates you: **2 doors**
+- Each closed door drains power per tick.
+- Doors stop most teachers from entering.
+- Does **NOT** stop Mr. Keys — he opens it regardless.
+- Power drains faster each night.
+
+### Flashlight
+- Used to check the office/room for Killacky.
+- Reveals if a teacher is right outside the door.
+- Battery is limited. Use sparingly.
+
+### Jeff Button
+- One-time use per night.
+- Calls Jeff's golf cart for emergency extraction.
+- Removes Mr. Keys' lock-on.
+- Moves player to classroom with 2 doors.
+
+---
+
+## Night Progression (Monday – Friday)
+
+### Night 1 — Monday
+- **Active:** Oakmaster
+- **Power drain:** Slow
+- **Notes:** Tutorial night. Learn camera management and door timing. Oakmaster patrols slowly.
+
+### Night 2 — Tuesday
+- **Active:** Oakmaster, McCreamy, Lepesto
+- **Power drain:** Moderate
+- **Notes:** McCreamy begins blinding cameras. Lepesto introduced. Player must manage camera attention carefully.
+
+### Night 3 — Wednesday
+- **Active:** Oakmaster, McCreamy, Lepesto, Killacky, Mr. Keys
+- **Power drain:** Moderate-High
+- **Notes:** First night where both surprise death (Killacky) and inescapable death (Keys) are possible. Jeff becomes a critical resource.
+
+### Night 4 — Thursday
+- **Active:** All of the above + Mrs. Escobar
+- **Power drain:** High
+- **Notes:** Escobar adds quiz minigame pressure. Full roster active. Survival requires managing 6 threats simultaneously.
+
+### Night 5 — Friday (Nightmare)
+- **Active:** All teachers in NIGHTMARE MODE
+- **Power drain:** Very High (~2x faster)
+- **Changes:**
+  - Oakmaster charges faster, says *"Gentlemen"* more frequently.
+  - McCreamy blinds cameras in rapid succession.
+  - Killacky can appear even without the player checking the office.
+  - Escobar's quiz time limit is significantly shorter.
+  - Keys moves noticeably faster after lock-on.
+  - Lepesto's eye contact threshold is shorter.
+- **Notes:** Survive until 8:30 AM. The school bell is salvation.
+
+---
+
+## Rooms & Camera Layout
+
+### Starting Room: Oakman's Office
+- **Doors:** 1 (north hallway)
+- **Cameras:** Access to all school cameras
+- **Desk:** Player POV. Flashlight on desk.
+
+### Fallback Room: Classroom (via Jeff)
+- **Doors:** 2 (front door + back door)
+- **Cameras:** Same access as office
+- **Risk:** Double door power drain. Use when Keys locks on.
+
+### Camera Locations
+| Cam | Location |
+|---|---|
+| CAM 1 | Main hallway — north (outside office door) |
+| CAM 2 | Main hallway — south |
+| CAM 3 | East corridor |
+| CAM 4 | West corridor |
+| CAM 5 | Cafeteria |
+| CAM 6 | Stairwell |
+| CAM 7 | Parking lot / exterior (Jeff's patrol zone) |
+| CAM 8 | Classroom hallway (relevant after Jeff move) |
+
+---
+
+## Game Over Conditions
+
+| Character | Kill Condition |
+|---|---|
+| **Killacky** | Appears in the office — instant, no warning |
+| **Oakmaster** | Reaches door after being stared at on camera |
+| **McCreamy** | Does not kill directly |
+| **Escobar** | Player fails or times out on Spanish quiz |
+| **Mr. Keys** | Reaches player after lock-on (no Jeff used) |
+| **Lepesto** | Does not kill directly (triggers teacher surge) |
+
+---
+
+## File Structure
+
+```
+/FNAAHS/
+  index.html              ← Entry point, loads game
+  game.js                 ← Core game logic
+  ui.js                   ← UI updates, camera switching
+  teachers.js             ← Teacher AI / state machines
+  audio.js                ← Sound management
+  style.css               ← Layout and overlays
+
+/FNAAHS/characters/
+  oakmaster.png               ← Oakmaster on camera (static)
+  oakmaster_charge.png        ← Oakmaster charging (close-up)
+  mccreamy.png                ← McCreamy on camera
+  mccreamy_splurge.png        ← McCreamy covering camera
+  escobar.png                 ← Escobar on camera
+  escobar_quiz.png            ← Escobar quiz screen close-up
+  keys.png                    ← Keys on camera
+  keys_close.png              ← Keys approaching (hallway)
+  keys_gameover.png           ← Keys game over close-up
+  lepesto.png                 ← Lepesto on camera
+  jeff.png                    ← Jeff on golf cart (Cam 7)
+  jeff_save.png               ← Jeff save transition screen
+  killacky_gameover.png       ← Killacky in office (game over only)
+
+/FNAAHS/backgrounds/
+  office.png                  ← Player default room (Oakman's)
+  classroom.png               ← Fallback room after Jeff move
+  menu_bg.png                 ← Main menu background (school at night)
+  cam1_hallway_n.png
+  cam2_hallway_s.png
+  cam3_east.png
+  cam4_west.png
+  cam5_cafeteria.png
+  cam6_stairwell.png
+  cam7_parking.png
+  cam8_classroom_hall.png
+
+/FNAAHS/ui/
+  camera_panel.png            ← Camera switcher overlay
+  door_button.png             ← Door close button
+  jeff_button.png             ← Jeff call button
+  jeff_button_used.png        ← Jeff button greyed out state
+  power_bar.png               ← Power indicator
+  flashlight_overlay.png      ← Flashlight circle effect
+  howtoplay_page1.png         ← How to play sticky note page 1
+  howtoplay_page2.png         ← How to play sticky note page 2
+
+/FNAAHS/audio/
+
+  — OAKMASTER —
+  gentlemen.mp3               ← Oakmaster spotted on camera
+  oakmaster_charge1.mp3       ← Oakmaster begins charging
+  oakmaster_charge2.mp3       ← Alternate charge line
+  oakmaster_door.mp3          ← Oakmaster reaches the door
+  oakmaster_gameover.mp3      ← Oakmaster kills player
+
+  — McCREAMY —
+  cream.mp3                   ← Camera being blocked by McCreamy
+  static.mp3                  ← Camera static while blinded
+  mccreamy_roam1.mp3          ← McCreamy active ambient
+  mccreamy_roam2.mp3          ← Alternate roam sound
+  mccreamy_clear.mp3          ← Camera clears
+
+  — ESCOBAR —
+  quiz_start.mp3              ← Quiz screen appears
+  escobar_approach1.mp3       ← Escobar one node away
+  escobar_approach2.mp3       ← Alternate approach line
+  escobar_correct.mp3         ← Correct answer sting
+  escobar_wrong.mp3           ← Wrong answer / game over
+  escobar_leave.mp3           ← Escobar leaves after passed quiz
+  escobar_roam1.mp3           ← Escobar active ambient
+
+  — MR. KEYS —
+  keys_lockon.mp3             ← Keys locks on to player
+  youre_my_favorite.mp3       ← Keys approaching (looped)
+  stay_after_class.mp3        ← Keys near the office / at door
+  keys_door.mp3               ← Keys opens the door
+  keys_gameover.mp3           ← Whispered game over line
+  keys_roam1.mp3              ← Keys active ambient (not locked)
+  keys_roam2.mp3              ← Alternate roam sound
+
+  — KILLACKY —
+  killacky_roll.mp3           ← Killacky in transit (not visible)
+  killacky_voiceline1.mp3     ← Player ignoring office too long
+  killacky_voiceline2.mp3     ← Near miss — she was there
+  killacky_voiceline3.mp3     ← Random ambient dread
+  killacky_eat.mp3            ← Killacky kills player
+
+  — LEPESTO —
+  lepesto_roam1.mp3           ← Lepesto ambient wander
+  lepesto_roam2.mp3           ← Alternate roam
+  lepesto_suspicious.mp3      ← ~1 second warning before eye contact
+  lepesto_alert.mp3           ← Eye contact confirmed — surge triggered
+
+  — JEFF —
+  jeff_cart.mp3               ← Jeff arriving on golf cart
+  jeff_save1.mp3              ← Jeff save line ("Hop in, kid.")
+  jeff_save2.mp3              ← Alternate save line
+  jeff_patrol.mp3             ← Jeff visible on Cam 7 ambient
+  jeff_used.mp3               ← Jeff button unavailable sound
+
+  — GLOBAL —
+  school_bell.mp3             ← 8:30 AM win condition
+  night_ambience.mp3          ← Background loop (all nights)
+  power_low.mp3               ← Warning when power is low
+  power_out.mp3               ← Power hits zero
+```
+
+---
+
+## Coding Overview (HTML/JS)
+
+### Core Loop
+- Game runs on a `setInterval` tick (every 500ms).
+- Each tick: move teachers, check proximity, check player actions, update power, update camera views.
+- Time runs from 10:00 PM to 8:30 AM (compressed real-time).
+  - Night 1: 1 in-game hour ≈ 45 real seconds
+  - Night 5: 1 in-game hour ≈ 30 real seconds
+
+### Teacher State Machine
+Each teacher has its own state machine:
+```
+IDLE → MOVING → PROXIMATE → ATTACKING
+```
+- Each teacher has a `position` (camera node) and a `target`.
+- Movement speed increases each night.
+- Mr. Keys has an additional `LOCKED_ON` state that bypasses normal logic.
+
+### Camera System
+- `currentCamera` variable tracks which cam is displayed.
+- Each camera background image swaps on selection.
+- Teacher images composite on top of background if teacher is at that camera node.
+- McCreamy: on splurge, overlay white PNG on that camera.
+- Killacky: never placed on camera nodes. Checked via random interval tick against office view.
+
+### Door System
+- `doorClosed = true/false` (two booleans after Jeff move).
+- While closed: drains power each tick.
+- If teacher reaches door node AND door is open: they enter.
+- Keys exception: he opens a closed door regardless.
+
+### Power System
+- `power = 100`, drains to 0.
+- Drain rate increases per night.
+- Each closed door adds to drain rate.
+- At `power = 0`: all doors open, flashlight dies, `power_out.mp3` plays.
+
+### Jeff Save
+```javascript
+jeffUsed = false  // reset each night
+
+// On activation:
+// 1. Play jeff_cart.mp3
+// 2. Show jeff_save.png transition screen
+// 3. Play jeff_save1.mp3 or jeff_save2.mp3
+// 4. Set currentRoom = "classroom"
+// 5. Enable second door
+// 6. Cancel Keys LOCKED_ON state
+// 7. Set jeffUsed = true — disable button
+```
+
+### Escobar Quiz Minigame
+- Triggered when Escobar reaches the office (door open).
+- Overlay quiz screen with `quiz_start.mp3`.
+- Display: `"Translate: [english word]"`
+- Two choices: `[word]o` (correct) vs. a real Spanish word (decoy).
+- Timer bar counts down. Wrong answer or timeout = GAME OVER.
+- Questions randomly selected from word bank (minimum 30 words recommended).
+
+### Lepesto Eye Contact
+```javascript
+// If player views Lepesto's camera:
+//   start eyeContactTimer
+//   threshold = ~3000ms (Night 1-4), ~1500ms (Night 5)
+//   play lepesto_suspicious.mp3 at ~1000ms as warning
+//   on threshold: play lepesto_alert.mp3, trigger teacherSurge()
+//   teacherSurge() increases all teacher speeds for 10 ticks
+```
+
+### Killacky
+```javascript
+// Every X seconds (random interval):
+//   roll killacky appearance chance
+//   if player IS viewing office or desk: GAME OVER
+//   if player is NOT viewing office:
+//     she was there but left — flicker office cam
+//     play killacky_voiceline2.mp3
+// Frequency and chance increase on Night 5
+```
+
+### Win Condition
+- `gameTime` reaches 8:30 AM on any night.
+- Play `school_bell.mp3`.
+- Show win screen: *"The bell rings. You survived."*
+- Night 5 only: *"You made it through the week."*
+- Advance to next night or return to menu.
+
+---
+
+## Night Intro Dialogue (Phone Guy)
+
+**Monday:**
+> "Hey, uh... welcome to your first night. So you're stuck in Mr. Oakman's office. Not ideal. He wanders. A lot. Just... don't stare at him too long on the cameras. He doesn't like that. Anyway. Good luck."
+
+**Tuesday:**
+> "Okay so, Mr. McCreamy is also around now. He gets on the cameras. You'll know when it happens. Also Lepesto is doing his rounds. He's harmless unless he sees you looking at him. Then he tells everyone. So. Don't do that."
+
+**Wednesday:**
+> "So. Um. Mrs. Killacky. Yeah. We don't really know how she moves. Or if she moves. She's just... sometimes there. Also Mr. Keys is active tonight. If he sees you, just call Jeff. Don't wait. Call Jeff immediately."
+
+**Thursday:**
+> "Mrs. Escobar is patrolling tonight. If she gets in, she will quiz you. The Spanish is not real Spanish. You just add O to things. Run is runo. Jump is jumpo. You'll figure it out. Probably. Keep the door closed."
+
+**Friday:**
+> "...I'm not going to sugarcoat it. Everyone is faster tonight. Killacky is worse. Keys is worse. The power drains like crazy. You have Jeff. Use him smart. Survive until 8:30. The bell will save you. Good luck."
+
+---
+
+*FNAAHS GDD v0.2 — last updated Night 5*
