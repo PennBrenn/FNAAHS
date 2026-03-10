@@ -111,7 +111,7 @@ Displayed as a **sticky note on a desk**, handwritten-style font. Two pages, swi
 
 #### Oakmaster (Mr. Oakman) — *The Wanderer*
 
-**Mechanic:** Roams the school hallways. Visible on cameras. Says *"Gentlemen"* when spotted. If the player watches him on camera for too long, he locks eyes with the camera and charges toward the office at alarming speed.
+**Mechanic:** Roams the school hallways. Visible on cameras. Says *"Gentlemen"* when spotted. If the player watches him on camera for too long, he locks eyes with the camera and charges toward the office at alarming speed. He is also alerted by lepesto.
 
 **Kill:** Reaches the office door and breaks in.
 
@@ -139,7 +139,7 @@ Displayed as a **sticky note on a desk**, handwritten-style font. Two pages, swi
 
 #### Mr. McCreamy — *The Blinder*
 
-**Mechanic:** Wanders hallways and "splurges" on cameras, covering the lens and temporarily disabling them. Does NOT kill directly. Forces the player blind on affected cameras, enabling other teachers to move untracked.
+**Mechanic:** Wanders hallways and "splurges" on cameras, covering the lens and temporarily disabling them. Does NOT kill directly. Forces the player blind on affected cameras, enabling other teachers to move untracked. The camera will show a static effect. Cleared on next night.
 
 **Kill:** Does not kill. Enables other teachers by removing visibility.
 
@@ -599,19 +599,19 @@ jeffUsed = false  // reset each night
 ## Night Intro Dialogue (Phone Guy)
 
 **Monday:**
-> "Hey, uh... welcome to your first night. So you're stuck in Mr. Oakman's office. Not ideal. He wanders. A lot. Just... don't stare at him too long on the cameras. He doesn't like that. Anyway. Good luck."
+> "Hey, youre not supposed to be here. Oakmaster isnt going to be very happy. Dont look too long, ill try and get you out on friday. Good luck."
 
 **Tuesday:**
-> "Okay so, Mr. McCreamy is also around now. He gets on the cameras. You'll know when it happens. Also Lepesto is doing his rounds. He's harmless unless he sees you looking at him. Then he tells everyone. So. Don't do that."
+> "Mr. Mcreamy is coming. Watch out for lepesto, he might radio your location in. Im allmost there, hold off untill friday."
 
 **Wednesday:**
-> "So. Um. Mrs. Killacky. Yeah. We don't really know how she moves. Or if she moves. She's just... sometimes there. Also Mr. Keys is active tonight. If he sees you, just call Jeff. Don't wait. Call Jeff immediately."
+> "So. Um. Mrs. Killacky. We don't really know how she moves. Or if she moves. She's just... sometimes there. Also Mr. Keys is active tonight. If he sees you, just call Jeff. Don't wait. Call Jeff immediately. Remeber, you only get jeff once."
 
 **Thursday:**
-> "Mrs. Escobar is patrolling tonight. If she gets in, she will quiz you. The Spanish is not real Spanish. You just add O to things. Run is runo. Jump is jumpo. You'll figure it out. Probably. Keep the door closed."
+> "Mrs. Escobar is patrolling tonight. If she gets in, she will quiz you. You'll figure it out. Probably. Keep the door closed."
 
 **Friday:**
-> "...I'm not going to sugarcoat it. Everyone is faster tonight. Killacky is worse. Keys is worse. The power drains like crazy. You have Jeff. Use him smart. Survive until 8:30. The bell will save you. Good luck."
+> (Static)
 
 ---
 
