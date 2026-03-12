@@ -425,14 +425,14 @@ He repeats:
   office.png                  ← Player default room (Oakman's)
   classroom.png               ← Fallback room after Jeff move
   menu_bg.png                 ← Main menu background (school at night)
-  cam1_hallway_n.png
-  cam2_hallway_s.png
-  cam3_east.png
-  cam4_west.png
-  cam5_cafeteria.png
-  cam6_stairwell.png
-  cam7_parking.png
-  cam8_classroom_hall.png
+  cam1.png
+  cam2.png
+  cam3.png
+  cam4.png
+  cam5.png
+  cam6.png
+  cam7.png
+  cam8.png
 
 /FNAAHS/ui/
   camera_panel.png            ← Camera switcher overlay
